@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
-using UnityEngine;
-using UnityEngine.U2D.IK;
 using UnityTask = System.Threading.Tasks.Task;
+using UnityEngine;
 
-
-public class TestTower : Tower
+public class SinglePurposeTower : Tower
 {
+    [SerializeField] private GameObject _buletPrefab;
     [SerializeField] private int _damage;
+    [SerializeField] private float _speed;
+    [SerializeField] private int _reload;
 
     public override async UnityTask Initialize()
     {
@@ -24,8 +24,11 @@ public class TestTower : Tower
             if (enemies.Count > 0)
             {
                 Enemy enemy = enemies[0];
-                enemy.MinusHealth(_damage);
-                await UnityTask.Delay(400);
+
+                GameObject bullet = Instantiate(_buletPrefab, gameObject.transform.position, Quaternion.identity);
+                bullet.GetComponent<Bullet>().Initialize(enemy, _damage, _speed);
+
+                await UnityTask.Delay(_reload * 100);
                 continue;
             }
 
@@ -38,5 +41,4 @@ public class TestTower : Tower
     {
         Initialize();
     }
-
 }

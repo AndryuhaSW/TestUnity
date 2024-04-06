@@ -19,12 +19,6 @@ public class FsmState_AttackStage : MonoBehaviour, FsmState
 
     public void Enter()
     {
-        TowerFactory towerFactory = TowerFactory.instance;
-
-        //tmp variant. delete next time
-        towerFactory.CreateTower("test", new Vector2(5, -2.5f));
-        towerFactory.CreateTower("test", new Vector2(-15, -2.5f));
-
         _levelManager.LoadLevel(_levelManager.CurrentLevel);
 
         waveNumber_text.gameObject.SetActive(true);
