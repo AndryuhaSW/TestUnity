@@ -19,9 +19,9 @@ public class SplashTower : Tower
         {
             if (enemies.Count > 0)
             {
-                Enemy targetEnemy = enemies.Peek();
-                Collider[] colliders = Physics.OverlapSphere(targetEnemy.transform.position, _splashRange);
-                foreach (Collider col in colliders)
+                Enemy targetEnemy = enemies[0];
+                Collider2D[] colliders = Physics2D.OverlapCircleAll(targetEnemy.transform.position, _splashRange);
+                foreach (Collider2D col in colliders)
                 {
                     if (col.CompareTag("Enemy"))
                     {
@@ -36,5 +36,11 @@ public class SplashTower : Tower
 
             await UnityTask.Delay(100);
         }
+    }
+
+    //temp. delete next time
+    private void Start()
+    {
+        Initialize();
     }
 }

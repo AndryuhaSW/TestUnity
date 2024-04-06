@@ -35,7 +35,7 @@ public class Spawner : MonoBehaviour
                 await UnityTask.Delay((int)(delayNextEnemy * 1000), token.Token);
             }
 
-            await UnityTask.Delay((int)(delayNextEnemy * 1000), token.Token);
+            //await UnityTask.Delay((int)(delayNextEnemy * 1000), token.Token);
         }
     }
 
