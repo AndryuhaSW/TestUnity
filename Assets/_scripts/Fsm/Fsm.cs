@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public class Fsm
 {
-
     private FsmState currentStateClass;
     private GameState currentState;
     public Dictionary<GameState, FsmState> states = new Dictionary<GameState, FsmState>();
