@@ -24,7 +24,7 @@ public class Spawner : MonoBehaviour
 
         foreach (Data_Enemy enemyData in waveList)
         {
-            string enemyType = enemyData.enemyType;
+            EnemyType enemyType = enemyData.enemyType;
             int countInLine = enemyData.countInLine;
             float delayNextEnemy = enemyData.delayNextEnemy;
 
@@ -33,7 +33,7 @@ public class Spawner : MonoBehaviour
                 Enemy enemy = _enemyFactory.SpawnEnemy(enemyType);
 
                 enemy.transform.position = transform.position;
-                await enemy.Initialize(_forwardWayPoints, _backWayPoints, speed);
+                enemy.Initialize(_forwardWayPoints, _backWayPoints, speed);
 
                 await UnityTask.Delay((int)(delayNextEnemy * 1000), token.Token);
             }

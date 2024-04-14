@@ -1149,63 +1149,20 @@ MonoBehaviour:
     waves:
     - speed: 1
       enemies:
-      - enemyType: PatrolEnemy
-        countInLine: 3
+      - enemyType: 0
+        countInLine: 2
         spawnerIndex: 0
         delayNextEnemy: 1
-      - enemyType: HealingEnemy
+      - enemyType: 0
+        countInLine: 2
+        spawnerIndex: 0
+        delayNextEnemy: 1
+      - enemyType: 1
         countInLine: 1
         spawnerIndex: 0
         delayNextEnemy: 10
-      - enemyType: PatrolEnemy
-        countInLine: 2
-        spawnerIndex: 0
-        delayNextEnemy: 1
-      - enemyType: HealingEnemy
-        countInLine: 1
-        spawnerIndex: 0
-        delayNextEnemy: 1
-      - enemyType: PatrolEnemy
-        countInLine: 1
-        spawnerIndex: 0
-        delayNextEnemy: 5
-    - speed: 1
-      enemies:
-      - enemyType: PatrolEnemy
-        countInLine: 3
-        spawnerIndex: 0
-        delayNextEnemy: 1
-    - speed: 1
-      enemies:
-      - enemyType: PatrolEnemy
-        countInLine: 3
-        spawnerIndex: 0
-        delayNextEnemy: 1
-      - enemyType: PatrolEnemy
-        countInLine: 1
-        spawnerIndex: 0
-        delayNextEnemy: 1
-  - spawners:
-    - {fileID: 997723637}
-    waves:
-    - speed: 10
-      enemies:
-      - enemyType: PatrolEnemy
-        countInLine: 2
-        spawnerIndex: 0
-        delayNextEnemy: 1
-      - enemyType: PatrolEnemy
-        countInLine: 2
-        spawnerIndex: 0
-        delayNextEnemy: 1
-    - speed: 10
-      enemies:
-      - enemyType: PatrolEnemy
-        countInLine: 1
-        spawnerIndex: 0
-        delayNextEnemy: 1
-      - enemyType: PatrolEnemy
-        countInLine: 1
+      - enemyType: 0
+        countInLine: 7
         spawnerIndex: 0
         delayNextEnemy: 1
 --- !u!114 &195177984

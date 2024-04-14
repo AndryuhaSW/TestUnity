@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class EnemyFactory : MonoBehaviour
@@ -23,20 +24,16 @@ public class EnemyFactory : MonoBehaviour
         healingEnemyPool = new PoolMono<HealingEnemy>(healingEnemyPrefab, 10, container);
     }
 
-    public Enemy SpawnEnemy(string enemyType)
+    public Enemy SpawnEnemy(EnemyType enemyType)
     {
-        Enemy spawnedEnemy = null;
-
         switch (enemyType)
         {
-            case "PatrolEnemy":
-                spawnedEnemy = patrolEnemyPool.GetFreeElement();
-                break;
-            case "HealingEnemy":
-                spawnedEnemy = healingEnemyPool.GetFreeElement();
-                break;
+            case EnemyType.Patrol:
+                return patrolEnemyPool.GetFreeElement();
+            case EnemyType.Healing:
+                return healingEnemyPool.GetFreeElement();
         }
-        
-        return spawnedEnemy;
+
+        throw new NullReferenceException("type of enemy is null");
     }
 }
