@@ -4,34 +4,29 @@ using System.Collections.Generic;
 public class Fsm
 {
 
-    private FsmState currentState;
-    private string currentStateName;
-    private Dictionary<string, FsmState> states = new Dictionary<string, FsmState>();
+    private FsmState currentStateClass;
+    private GameState currentState;
+    public Dictionary<GameState, FsmState> states = new Dictionary<GameState, FsmState>();
 
-    public void Initialize(string stateName)
+    public void AddState(GameState state, FsmState stateClass)
     {
-        SetState(stateName);
-    }
-
-    public void AddState(string stateName, FsmState state)
-    {
-        if (states.ContainsValue(state) == false)
-            states.Add(stateName, state);
+        if (states.ContainsValue(stateClass) == false)
+            states.Add(state, stateClass);
         else
-            throw new Exception("Invalid state exception");
+            throw new Exception("State already exists");
     }
 
-    public void SetState(string stateName)
+    public void SetState(GameState state)
     {
-        if (stateName == currentStateName)
+        if (state == currentState)
             return;
 
-        if (states.TryGetValue(stateName, out FsmState newState))
+        if (states.TryGetValue(state, out FsmState newState))
         {
-            currentState?.Exit();
-            currentState = newState;
-            currentStateName = stateName;
-            currentState?.Enter();
+            currentStateClass?.Exit();
+            currentStateClass = newState;
+            currentState = state;
+            currentStateClass?.Enter();
         }
         else
             throw new Exception("No such state");

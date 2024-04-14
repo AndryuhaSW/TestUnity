@@ -53,6 +53,6 @@ public class FsmState_PrepareStage : MonoBehaviour, FsmState
 
     public static void SetState()
     {   
-        FsmManager.Fsm.SetState("PrepareStage");
+        FsmManager.Fsm.SetState(GameState.PrepareStage);
     }
 }

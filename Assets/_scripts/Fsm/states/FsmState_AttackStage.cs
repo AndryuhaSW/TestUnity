@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,7 +31,7 @@ public class FsmState_AttackStage : MonoBehaviour, FsmState
 
     public static void SetState()
     {
-        FsmManager.Fsm.SetState("AttackStage");
+        FsmManager.Fsm.SetState(GameState.AttakStage);
     }
 
 }

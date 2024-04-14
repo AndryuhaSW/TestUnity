@@ -1,6 +1,4 @@
 
-
-
 [System.Serializable]
 public class Data_Enemy
 {
