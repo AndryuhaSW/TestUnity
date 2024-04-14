@@ -10,10 +10,10 @@ public class HealingEnemy : Enemy
     public override async UnityTask Initialize(List<Transform> forwardWayPoints,
         List<Transform> backWayPoints, float speed)
     {
-        base.Initialize(forwardWayPoints, backWayPoints, speed);
+        await base.Initialize(forwardWayPoints, backWayPoints, speed);
         //Debug.Log("Spawn HealingEnemy");
 
-        HealEnemies();
+        await HealEnemies();
     }
 
     private async UnityTask HealEnemies()

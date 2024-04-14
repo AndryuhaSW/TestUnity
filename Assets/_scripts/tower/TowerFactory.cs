@@ -26,7 +26,9 @@ public class TowerFactory : MonoBehaviour
 
         Tower tower = createdTower.GetComponent<Tower>();
 
-        //tower.transform.parent = _parentTransform;
+        tower.transform.parent = _parentTransform;
+
+        tower.GetComponent<RectTransform>().anchoredPosition = spawnPoint;
 
         //createdTower.transform.localScale = Vector3.one;
 

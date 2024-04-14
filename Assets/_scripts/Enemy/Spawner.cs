@@ -9,6 +9,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private List<Transform> _backWayPoints;
 
     private EnemyFactory _enemyFactory;
+
     private CancellationTokenSource token;
 
     //Ќе awake потому что instrance не успевает установитьс€ в EnemyFactory.Awake
@@ -21,21 +22,21 @@ public class Spawner : MonoBehaviour
     {
         token = new CancellationTokenSource();
 
-        foreach (Data_Enemy enemy in waveList)
+        foreach (Data_Enemy enemyData in waveList)
         {
-            string enemyType = enemy.enemyType;
-            int countInLine = enemy.countInLine;
-            float delayNextEnemy = enemy.delayNextEnemy;
+            string enemyType = enemyData.enemyType;
+            int countInLine = enemyData.countInLine;
+            float delayNextEnemy = enemyData.delayNextEnemy;
 
             for (int i = 0; i < countInLine; i++)
             {
-                Enemy enemy_gameobject = _enemyFactory.SpawnEnemy(enemyType, transform.position);
-                enemy_gameobject.Initialize(_forwardWayPoints, _backWayPoints, speed);
+                Enemy enemy = _enemyFactory.SpawnEnemy(enemyType);
+
+                enemy.transform.position = transform.position;
+                await enemy.Initialize(_forwardWayPoints, _backWayPoints, speed);
 
                 await UnityTask.Delay((int)(delayNextEnemy * 1000), token.Token);
             }
-
-            //await UnityTask.Delay((int)(delayNextEnemy * 1000), token.Token);
         }
     }
 

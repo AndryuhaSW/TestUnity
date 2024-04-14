@@ -10,7 +10,7 @@ public class Health_UI : MonoBehaviour
     private Health _health;
     private int _waitForSecondSlider = 1;
 
-    private void Start()
+    private void Awake()
     {
         _health = GetComponent<Health>();
         _health.HealthChanged += DrowHealth;
@@ -20,6 +20,7 @@ public class Health_UI : MonoBehaviour
     {
         _health.HealthChanged -= DrowHealth;
     }
+
     private void DrowHealth()
     {
         StopAllCoroutines();

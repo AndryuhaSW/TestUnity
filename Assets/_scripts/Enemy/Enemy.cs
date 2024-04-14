@@ -15,7 +15,7 @@ public abstract class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        _healthComponent = gameObject.GetComponent<Health>();
+        _healthComponent = GetComponent<Health>();
     }
 
     public virtual async UnityTask Initialize(List<Transform> forwardWayPoints, 

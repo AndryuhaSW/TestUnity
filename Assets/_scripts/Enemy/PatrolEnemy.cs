@@ -10,7 +10,7 @@ public class PatrolEnemy : Enemy
     public override async UnityTask Initialize(List<Transform> forwardWayPoints,
         List<Transform> backWayPoints, float speed)
     {
-        base.Initialize(forwardWayPoints, backWayPoints, speed);
+        await base.Initialize(forwardWayPoints, backWayPoints, speed);
 
         //Debug.Log("Spawn PatrolEnemy");
     }
