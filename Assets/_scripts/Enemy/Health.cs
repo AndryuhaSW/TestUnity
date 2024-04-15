@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Health : MonoBehaviour, IHealth
+public class Health : MonoBehaviour
 {
     public static event Action<Health> Spawned;
     public event Action HealthChanged;
@@ -15,13 +15,6 @@ public class Health : MonoBehaviour, IHealth
         this.maxHealth = maxHealth;
         currentHealth = maxHealth;
     }
-    /*
-    private void Start()
-    {
-        Spawned?.Invoke(this);
-        maxHealth = 100f;
-        currentHealth = maxHealth;
-    }*/
 
     public void PlusHealth(float health)
     {
@@ -54,6 +47,5 @@ public class Health : MonoBehaviour, IHealth
     public void Kill()
     {
         Killed?.Invoke();
-        //Destroy(gameObject);
     }
 }

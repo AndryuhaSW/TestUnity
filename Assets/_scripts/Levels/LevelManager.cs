@@ -10,9 +10,9 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private List<Data_Level> _levels;
 
-    private static int _enemyCount = 0;
-    private static int _sheepCount = 0;
-    private static int _currentWaveNumber = 0;
+    private static int _enemyCount;
+    private static int _sheepCount;
+    private static int _currentWaveNumber;
     private static int _maxWaveNumber;
 
     public int CurrentLevel { get; set; } = 0;

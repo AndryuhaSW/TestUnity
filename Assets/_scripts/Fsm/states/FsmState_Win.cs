@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FsmState_Win : MonoBehaviour, FsmState
@@ -19,7 +17,7 @@ public class FsmState_Win : MonoBehaviour, FsmState
 
     public static void SetState()
     {
-        FsmManager.Fsm.SetState("Win");
+        FsmManager.Fsm.SetState(GameState.Win);
     }
 
     private void OnEnable()

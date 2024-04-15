@@ -1,6 +1,4 @@
-
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,8 +13,6 @@ public class FsmState_PrepareStage : MonoBehaviour, FsmState
 
     public void Enter()
     {
-        
-
         _menu.SetActive(true);
 
         StartCoroutine(Timer());
@@ -53,6 +49,6 @@ public class FsmState_PrepareStage : MonoBehaviour, FsmState
 
     public static void SetState()
     {   
-        FsmManager.Fsm.SetState("PrepareStage");
+        FsmManager.Fsm.SetState(GameState.PrepareStage);
     }
 }

@@ -16,7 +16,7 @@ public class FsmState_Loss : MonoBehaviour, FsmState
 
     public static void SetState()
     {
-        FsmManager.Fsm.SetState("Loss");
+        FsmManager.Fsm.SetState(GameState.Loss);
     }
 
     private void OnEnable()

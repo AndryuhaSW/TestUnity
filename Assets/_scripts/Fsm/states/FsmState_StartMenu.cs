@@ -18,6 +18,6 @@ public class FsmState_StartMenu : MonoBehaviour, FsmState
 
     public static void SetState()
     {
-        FsmManager.Fsm.SetState("StartMenu");
+        FsmManager.Fsm.SetState(GameState.StartMenu);
     }
 }

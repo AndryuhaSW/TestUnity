@@ -5,9 +5,9 @@ using UnityTask = System.Threading.Tasks.Task;
 
 public abstract class Tower : MonoBehaviour
 {
-    [SerializeField] protected int _timeToBuild;
-
-    //protected Queue<Enemy> enemies = new Queue<Enemy>();
+    [SerializeField] protected int timeToBuild;
+    [SerializeField] protected int salePrice;
+    
     protected List<Enemy> enemies = new List<Enemy>();
     protected CancellationTokenSource token;
 
@@ -21,7 +21,7 @@ public abstract class Tower : MonoBehaviour
     protected virtual async UnityTask Build()
     {
         //Нужно переделать по нормальному. Полоса прогрессии мб
-        for (int i = 0; i < _timeToBuild; i++)
+        for (int i = 0; i < timeToBuild; i++)
         {
             await UnityTask.Delay(1000, token.Token);
         }
@@ -47,10 +47,10 @@ public abstract class Tower : MonoBehaviour
     }
 
 
-
-    /*public void SaleTower()
+    public void SaleTower()
     {
         token.Cancel();
+        Wallet.Instance.ChangeMoney(salePrice);
         Destroy(gameObject);
-    }*/
+    }
 }

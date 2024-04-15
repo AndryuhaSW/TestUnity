@@ -15,21 +15,16 @@ public class FsmManager : MonoBehaviour
 
     public static Fsm Fsm { get; private set; }
 
-    private void Awake()
+    private void Start()
     {
         Fsm = new Fsm();
 
-        Fsm.AddState("StartMenu", state_startMenu);
-        Fsm.AddState("PrepareStage", state_prepareStage);
-        Fsm.AddState("AttackStage", state_attackStage);
-        Fsm.AddState("Win", state_win);
-        Fsm.AddState("Loss", state_loss);
+        Fsm.AddState(GameState.StartMenu, state_startMenu);
+        Fsm.AddState(GameState.PrepareStage, state_prepareStage);
+        Fsm.AddState(GameState.AttakStage, state_attackStage);
+        Fsm.AddState(GameState.Win, state_win);
+        Fsm.AddState(GameState.Loss, state_loss);
 
-        Fsm.Initialize("StartMenu");
-    }
-
-    public void SetGameState(string stateName)
-    {
-        Fsm.SetState(stateName);
+        Fsm.SetState(GameState.StartMenu);
     }
 }
