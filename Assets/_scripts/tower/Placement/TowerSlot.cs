@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 public class TowerSlot : MonoBehaviour, IDropHandler
 {
     private TowerFactory towerFactory;
+    private bool isEmployed = false;
 
     private void Awake()
     {
@@ -12,11 +13,14 @@ public class TowerSlot : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (eventData.pointerDrag != null)
+        if (eventData.pointerDrag != null && !isEmployed)
         {
-            eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
-            Destroy(eventData.pointerDrag);
-            towerFactory.CreateTower("test", GetComponent<RectTransform>().anchoredPosition);
+            isEmployed = true;
+            eventData.pointerDrag.SetActive(false);
+
+            Tower tower = towerFactory.CreateTower(TowerType.SinglePurpose);
+            tower.Initialize();
+            tower.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
         }
             
     }

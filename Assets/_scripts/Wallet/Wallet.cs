@@ -5,15 +5,18 @@ using UnityEngine;
 public class Wallet : MonoBehaviour
 {
     public event Action MoneyChanged;
+
     [SerializeField] private float _money;
 
-    public static Wallet Instance { get; private set; }
-
     private Mutex _mutex = new Mutex();
+    public static Wallet Instance { get; private set; }
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
     }
 
     public bool ChangeMoney(float money)
