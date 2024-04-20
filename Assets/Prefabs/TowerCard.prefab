@@ -52,9 +52,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54961be95da247e46a1238f080edb8a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
+  towerType: 0
   draggingIconPrefab: {fileID: 7351354090928683539, guid: 2a0b4661f244b2848acca0bf61dcd9ce, type: 3}
-  _type: 0
 --- !u!222 &6423556896459465565
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -88,7 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.005339969, g: 0.3773585, b: 0.054643665, a: 1}
+  m_Color: {r: 0.021493427, g: 0.21258923, b: 0.6509434, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

@@ -16,8 +16,8 @@ public class TowerSlot : MonoBehaviour, IDropHandler
         if (eventData.pointerDrag != null && !isEmployed)
         {
             isEmployed = true;
-            eventData.pointerDrag.GetComponent<TowerCard_DragAndDrop>().OnEndDrag(eventData);
-            TowerType type = eventData.pointerDrag.GetComponent<TowerCard_DragAndDrop>().GetTowerType();
+            eventData.pointerDrag.GetComponent<TowerCard>().OnEndDrag(eventData);
+            TowerType type = eventData.pointerDrag.GetComponent<TowerCard>().GetTowerType();
             eventData.pointerDrag.SetActive(false);
 
             Tower tower = towerFactory.CreateTower(type);

@@ -1,35 +1,44 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CardConveyor : MonoBehaviour
 {
-    [SerializeField] private Canvas _canvas;
-    [SerializeField] private GameObject[] cardPrefabs;
+    [SerializeField] private Canvas canvas;
     [SerializeField] private RectTransform spawnPoint;
     [SerializeField] private RectTransform destroyPoint;
-    [SerializeField] private float spawnInterval = 2f;
-    [SerializeField] private float cardSpeed = 2f; 
+    [SerializeField] private float spawnTimeInterval = 2f;
+    [SerializeField] private float cardSpeed = 2f;
 
-    private float nextSpawnTime;
+    private TowerCardFactory towerCardFactory;
 
-    private void Update()
+    private void Start()
     {
-        if (Time.time >= nextSpawnTime)
+        towerCardFactory = TowerCardFactory.instance;
+        StartCoroutine(Initialize());
+    }
+
+    private IEnumerator Initialize()
+    {
+        while (true)
         {
-            SpawnCard();
-            nextSpawnTime = Time.time + spawnInterval;
+            TowerCard towerCard = GetRandomTowerCard();
+            towerCard.Initialize(canvas, spawnPoint.anchoredPosition, destroyPoint.anchoredPosition, cardSpeed);
+            yield return new WaitForSeconds((int)spawnTimeInterval);
         }
     }
 
-    private void SpawnCard()
+    private TowerCard GetRandomTowerCard()
     {
-        GameObject randomCardPrefab = cardPrefabs[Random.Range(0, cardPrefabs.Length)];
-
-        GameObject newCard = Instantiate(randomCardPrefab, spawnPoint.position, Quaternion.identity, this.transform);
-        newCard.GetComponent<TowerCard_DragAndDrop>().Initialize(_canvas, destroyPoint.anchoredPosition);
-
-        Rigidbody2D cardRigidbody = newCard.GetComponent<Rigidbody2D>();
-        cardRigidbody.velocity = transform.right * cardSpeed;
+        switch (UnityEngine.Random.Range(0, /*Enum.GetNames(typeof(TowerType)).Length*/3))
+        {
+            case 0:
+                return towerCardFactory.SpawnTowerCard(TowerType.SinglePurpose);
+            case 1:
+                return towerCardFactory.SpawnTowerCard(TowerType.CircleRange);
+            case 2:
+                return towerCardFactory.SpawnTowerCard(TowerType.Splash);
+        }
+        throw new NullReferenceException("type of tower is null");
     }
 }
