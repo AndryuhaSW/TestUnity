@@ -15,10 +15,14 @@ public class CardConveyor : MonoBehaviour
     private void Start()
     {
         towerCardFactory = TowerCardFactory.instance;
-        StartCoroutine(Initialize());
     }
 
-    private IEnumerator Initialize()
+    public void Initialize()
+    {
+        StartCoroutine(InitializeCoroutine());
+    }
+
+    private IEnumerator InitializeCoroutine()
     {
         while (true)
         {

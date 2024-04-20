@@ -27,7 +27,7 @@ public abstract class Enemy : MonoBehaviour
         this.backWayPoints = backWayPoints;
         this.speed = speed;
 
-        await Move();
+        Move();
     }
 
     private async UnityTask Move()

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityTask = System.Threading.Tasks.Task;
 
@@ -6,17 +7,19 @@ public class HealingEnemy : Enemy
 {
     [SerializeField] private float healthPoints;
     [SerializeField] private float healRadius;
-    [SerializeField] private float healAmount; 
+    [SerializeField] private float healAmount;
+
 
 
     public override async UnityTask Initialize(List<Transform> forwardWayPoints,
         List<Transform> backWayPoints, float speed)
     {
+
         await base.Initialize(forwardWayPoints, backWayPoints, speed);
 
         health.Initialize(healthPoints);
 
-        await HealEnemies();
+        HealEnemies();
     }
 
     private async UnityTask HealEnemies()
@@ -30,11 +33,13 @@ public class HealingEnemy : Enemy
                 Enemy enemy = collider.GetComponent<Enemy>();
                 if (enemy != null && enemy != this)
                 {
-                    enemy.PlusHealth(healAmount);
+                    //Какой то странный баг вылезает. Когда врач умирает из первой толпы, во второй здоровье ломается у последних трех. нихуя не поянл, но надо что-то делать
+                    //enemy.PlusHealth(healAmount);
                 }
             }
             
             await UnityTask.Delay(1000);
         }
     }
+
 }

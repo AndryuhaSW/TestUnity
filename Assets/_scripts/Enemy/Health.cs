@@ -31,7 +31,6 @@ public class Health : MonoBehaviour
 
     public void MinusHealth(float health)
     {
-
         if (currentHealth - health <= 0)
         {
             currentHealth = 0;

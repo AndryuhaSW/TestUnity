@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -6,7 +7,8 @@ public class TowerSlot : MonoBehaviour, IDropHandler
     private TowerFactory towerFactory;
     private bool isEmployed = false;
 
-    private void Awake()
+
+    private void Start()
     {
         towerFactory = TowerFactory.instance;
     }
@@ -16,13 +18,14 @@ public class TowerSlot : MonoBehaviour, IDropHandler
         if (eventData.pointerDrag != null && !isEmployed)
         {
             isEmployed = true;
-            eventData.pointerDrag.GetComponent<TowerCard>().OnEndDrag(eventData);
-            TowerType type = eventData.pointerDrag.GetComponent<TowerCard>().GetTowerType();
-            eventData.pointerDrag.SetActive(false);
-
+            TowerCard towerCard = eventData.pointerDrag.GetComponent<TowerCard>();
+            towerCard.OnEndDrag(eventData);
+            TowerType type = towerCard.GetTowerType();
+            towerCard.gameObject.SetActive(false);
+            
             Tower tower = towerFactory.CreateTower(type);
-            tower.Initialize();
             tower.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
+            tower.Initialize();
         }
             
     }

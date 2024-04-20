@@ -10,7 +10,7 @@ public class Health_UI : MonoBehaviour
     private Health _health;
     private int _waitForSecondSlider = 1;
 
-    private void Awake()
+    private void OnEnable()
     {
         _health = GetComponent<Health>();
         _health.HealthChanged += DrowHealth;

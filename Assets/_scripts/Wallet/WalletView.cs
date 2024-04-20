@@ -1,10 +1,10 @@
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WalletView : MonoBehaviour
 {
     [SerializeField] private Wallet _wallet;
-    [SerializeField] private TextMeshProUGUI _text;
+    [SerializeField] private Text _text;
 
     private void OnEnable()
     {

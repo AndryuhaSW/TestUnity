@@ -6,19 +6,15 @@ public class FsmState_AttackStage : MonoBehaviour, FsmState
     [SerializeField]
     private Text waveNumber_text;
 
-    private LevelManager _levelManager;
-
+    [SerializeField] private LevelManager _levelManager;
+    [SerializeField] private CardConveyor cardConveyor;
     
 
-    private void Awake()
-    {
-        _levelManager = GetComponent<LevelManager>();
-    }
 
     public void Enter()
     {
         _levelManager.LoadLevel(_levelManager.CurrentLevel);
-
+        cardConveyor.Initialize();
         waveNumber_text.gameObject.SetActive(true);
         waveNumber_text.text = $"{_levelManager.GetCurrentWaveNumber()+1}/{_levelManager.GetMaxWaveNumber()+1}";
     }
