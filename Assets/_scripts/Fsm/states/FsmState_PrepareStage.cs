@@ -39,12 +39,12 @@ public class FsmState_PrepareStage : MonoBehaviour, FsmState
 
     private void OnEnable()
     {
-        LevelManager.AllEnemiesDead += SetState;
+        LevelManager.instance.AllEnemiesDead += SetState;
     }
 
     private void OnDisable()
     {
-        LevelManager.AllEnemiesDead -= SetState;
+        LevelManager.instance.AllEnemiesDead -= SetState;
     }
 
     public static void SetState()

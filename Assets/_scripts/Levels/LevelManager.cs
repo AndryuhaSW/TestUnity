@@ -1,21 +1,31 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    public static event Action AllEnemiesDead;
-    public static event Action AllSheepsStealStolen;
-    public static event Action AllWavesOver;
+    public  event Action AllEnemiesDead;
+    public  event Action AllSheepsStealStolen;
+    public  event Action AllWavesOver;
 
     [SerializeField] private List<Data_Level> _levels;
 
-    private static int _enemyCount;
-    private static int _sheepCount;
-    private static int _currentWaveNumber;
-    private static int _maxWaveNumber;
-
+    public static LevelManager instance { get; private set; }
+    private  int _enemyCount;
+    private  int _sheepCount = 3;
+    private  int _currentWaveNumber;
+    private  int _maxWaveNumber;
+    private Mutex _mutex = new Mutex();
     public int CurrentLevel { get; set; } = 0;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
 
     public void LoadLevel(int level)
     {
@@ -39,28 +49,37 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public static void KillEnemy()
+    public void KillEnemy()
     {
-        _enemyCount--;
-        if (_enemyCount <= 0)
+        try
         {
-            _currentWaveNumber++;
-            if (_currentWaveNumber > _maxWaveNumber)
-            {
-                _currentWaveNumber = 0;
-                AllWavesOver?.Invoke();
-                return;
-            }
+            _mutex.WaitOne();
 
-            AllEnemiesDead?.Invoke();
+            _enemyCount--;
+            if (_enemyCount <= 0)
+            {
+                _currentWaveNumber++;
+                if (_currentWaveNumber > _maxWaveNumber)
+                {
+                    _currentWaveNumber = 0;
+                    AllWavesOver?.Invoke();
+                    return;
+                }
+
+                AllEnemiesDead?.Invoke();
+            }
+        }
+        finally
+        {
+            _mutex.ReleaseMutex();
         }
     }
 
-    public static void StealSheep()
+    public void StealSheep()
     {
         _sheepCount--;
 
-        if (_sheepCount <= 1)
+        if (_sheepCount <= 0)
         {
             AllSheepsStealStolen?.Invoke();
         }

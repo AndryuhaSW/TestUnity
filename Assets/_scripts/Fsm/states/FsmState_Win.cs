@@ -22,11 +22,11 @@ public class FsmState_Win : MonoBehaviour, FsmState
 
     private void OnEnable()
     {
-        LevelManager.AllWavesOver += SetState;
+        LevelManager.instance.AllWavesOver += SetState;
     }
 
     private void OnDisable()
     {
-        LevelManager.AllWavesOver -= SetState;
+        LevelManager.instance.AllWavesOver -= SetState;
     }
 }
