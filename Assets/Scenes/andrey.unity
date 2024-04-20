@@ -384,6 +384,7 @@ RectTransform:
   - {fileID: 394010786}
   - {fileID: 159028226}
   - {fileID: 2083623040}
+  - {fileID: 1921168838}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1202,10 +1203,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7d3cefad2ad3f34a8ab59c1b8375451, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  container: {fileID: 0}
-  singlePurposeTower: {fileID: 0}
-  circleRangeTower: {fileID: 0}
-  splashTower: {fileID: 0}
+  container: {fileID: 54433991}
+  singlePurposeTower: {fileID: 6076860488285656525, guid: 24bc1410e23f5364cb222558afe85e95, type: 3}
+  circleRangeTower: {fileID: 3260332692556248358, guid: 8d180aa888255704692d1cd44f660b2b, type: 3}
+  splashTower: {fileID: 3018557194323582130, guid: bba457dac0b55324a97fbce300d2f9e3, type: 3}
 --- !u!114 &195177987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6523,11 +6524,11 @@ Transform:
   m_GameObject: {fileID: 1921168836}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.1, y: -0.23, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 10.799999, y: -24.839998, z: -9719.999}
+  m_LocalScale: {x: 108, y: 108, z: 108}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 54433991}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1966492088
 GameObject:
@@ -7407,7 +7408,6 @@ SceneRoots:
   - {fileID: 1387071328}
   - {fileID: 54433991}
   - {fileID: 195177976}
-  - {fileID: 1921168838}
   - {fileID: 2924745817523601485}
   - {fileID: 2027051008636528207}
   - {fileID: 329012517}

@@ -52,9 +52,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54961be95da247e46a1238f080edb8a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
+  towerType: 1
   draggingIconPrefab: {fileID: 7351354090928683539, guid: 2a0b4661f244b2848acca0bf61dcd9ce, type: 3}
-  _type: 1
 --- !u!222 &4497635847065777419
 CanvasRenderer:
   m_ObjectHideFlags: 0

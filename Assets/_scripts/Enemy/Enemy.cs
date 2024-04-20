@@ -2,12 +2,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityTask = System.Threading.Tasks.Task;
 using System.Threading;
+using UnityEngine.UI;
 
 
 public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] private float _moneyAfterDeath;
 
+    protected Sheep sheep = null;
     protected Health health;
     protected List<Transform> forwardWayPoints;
     protected List<Transform> backWayPoints;
@@ -27,7 +29,7 @@ public abstract class Enemy : MonoBehaviour
         this.backWayPoints = backWayPoints;
         this.speed = speed;
 
-        await Move();
+        Move();
     }
 
     private async UnityTask Move()
@@ -39,7 +41,8 @@ public abstract class Enemy : MonoBehaviour
         for (int i = 0; i < backWayPoints.Count; i++)
             await GoToPoint(backWayPoints[i].position);
 
-        health.Kill();
+        LevelManager.instance.StealSheep();
+        gameObject.SetActive(false);
     }
 
     private async UnityTask GoToPoint(Vector2 direction)
@@ -55,8 +58,13 @@ public abstract class Enemy : MonoBehaviour
     {
         token.Cancel();
         Wallet.Instance.ChangeMoney(_moneyAfterDeath);
+        LevelManager.instance.KillEnemy();
+        sheep?.OnDrop(transform.position);
+        sheep = null;
+        health.PlusHealth(health.maxHealth);
+        Image image = transform.GetChild(1).GetComponent<Image>();
+        image.color = Color.white;
         gameObject.SetActive(false);
-        LevelManager.KillEnemy();
     }
 
     private void OnEnable()
@@ -80,4 +88,16 @@ public abstract class Enemy : MonoBehaviour
         health.MinusHealth(val);
         
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Sheep" && sheep == null)
+        {
+            sheep = collision.GetComponent<Sheep>();
+            sheep.OnTake();
+            Image image = transform.GetChild(1).GetComponent<Image>();
+            image.color = Color.green;
+        }
+    }
+
 }

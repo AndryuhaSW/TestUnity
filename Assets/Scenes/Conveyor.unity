@@ -175,14 +175,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bd7f3480c1bf534b95b17b2a99c1b11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 861278031}
-  cardPrefabs:
-  - {fileID: 6467835472205896408, guid: 98d28fefff9efc841a2543ec50b4e9d6, type: 3}
-  - {fileID: 1325424475634706339, guid: 0c9562f7d702dc04ba7af703a6d2409f, type: 3}
-  - {fileID: 7150775602039565277, guid: 8df84745f1f295e48a73467b1df306b3, type: 3}
+  canvas: {fileID: 861278031}
   spawnPoint: {fileID: 465971718}
   destroyPoint: {fileID: 1752375538}
-  spawnInterval: 2
+  spawnTimeInterval: 2
   cardSpeed: 2
 --- !u!114 &79841310
 MonoBehaviour:
@@ -232,6 +228,7 @@ GameObject:
   m_Component:
   - component: {fileID: 411604730}
   - component: {fileID: 411604729}
+  - component: {fileID: 411604731}
   m_Layer: 0
   m_Name: CONTEXT
   m_TagString: Untagged
@@ -270,6 +267,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &411604731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 411604728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4c0c4ab955b29040bc427a62db2a517, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  container: {fileID: 79841308}
+  SinglePurposeTowerPrefab: {fileID: 88992607361197739, guid: 98d28fefff9efc841a2543ec50b4e9d6, type: 3}
+  CircleRangeTowerPrefab: {fileID: 2274498363057432027, guid: 0c9562f7d702dc04ba7af703a6d2409f, type: 3}
+  SplashTowerPrefab: {fileID: 3225064772949195476, guid: 8df84745f1f295e48a73467b1df306b3, type: 3}
 --- !u!1 &465971717
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,11 +313,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 79841308}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -1100, y: 0}
   m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &529864267
 GameObject:
   m_ObjectHideFlags: 0
@@ -1018,9 +1031,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 960, y: 0}
+  m_AnchoredPosition: {x: 1100, y: 0}
   m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 1, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1974135306
 GameObject:
   m_ObjectHideFlags: 0

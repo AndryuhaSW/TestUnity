@@ -48,11 +48,11 @@ public class Spawner : MonoBehaviour
 
     private void OnEnable()
     {
-        LevelManager.AllEnemiesDead += StopSpawner;
+        LevelManager.instance.AllEnemiesDead += StopSpawner;
     }
 
     private void OnDisable()
     {
-        LevelManager.AllEnemiesDead -= StopSpawner;
+        LevelManager.instance.AllEnemiesDead -= StopSpawner;
     }
 }

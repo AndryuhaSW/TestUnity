@@ -578,6 +578,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moneyAfterDeath: 30
+  healthPoints: 60
   healRadius: 50
   healAmount: 2
 --- !u!1 &8648149225368383482
