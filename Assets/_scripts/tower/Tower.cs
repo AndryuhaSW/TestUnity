@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityTask = System.Threading.Tasks.Task;
 
 public abstract class Tower : MonoBehaviour
@@ -51,6 +52,8 @@ public abstract class Tower : MonoBehaviour
     {
         token.Cancel();
         Wallet.Instance.ChangeMoney(salePrice);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
+
+    
 }

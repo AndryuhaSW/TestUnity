@@ -283,7 +283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeToBuild: 0
-  salePrice: 0
+  salePrice: 5
   _buletPrefab: {fileID: 2349305372913697062, guid: 3199168e8762d424fab5a06910078745, type: 3}
   _damage: 9
   _speed: 7

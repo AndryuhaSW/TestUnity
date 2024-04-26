@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeToBuild: 0
-  salePrice: 0
+  salePrice: 7
   _kernelPrefab: {fileID: 862502804502618863, guid: 6159b5753ebb13b43bcc6be26e71a7ec, type: 3}
   _damage: 18
   _speed: 3

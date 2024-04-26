@@ -7,17 +7,22 @@ using UnityTask = System.Threading.Tasks.Task;
 public class TowerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     [SerializeField] private TowerType towerType;
+    [SerializeField] private float _price;
     private Canvas canvas;
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
     private Vector2 startPosition;
     private Vector2 endPosition;
     private float speed;
-    private Vector2 initialPosition;
+    //private Vector2 initialPosition;
+
+    private bool isMouseFollowerActive = false;
+
+
 
     //Идея хорошая, но вроде можно улучшить. Пока пусть будет так
-    [SerializeField] private GameObject draggingIconPrefab;
-    private GameObject draggingIcon; // Полупрозрачная копия
+    //[SerializeField] private GameObject draggingIconPrefab;
+    //private GameObject draggingIcon; // Полупрозрачная копия
 
     protected CancellationTokenSource token;
 
@@ -44,35 +49,60 @@ public class TowerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
         while (endPosition.x - rectTransform.anchoredPosition.x > 0.1f)
         {
             rectTransform.position = Vector2.MoveTowards(rectTransform.position, endPosition, speed * Time.fixedDeltaTime);
-            initialPosition = rectTransform.anchoredPosition;
+            //initialPosition = rectTransform.anchoredPosition;
             await UnityTask.Delay((int)(Time.fixedDeltaTime * 1000), token.Token);
         }
+
+
+        if (isMouseFollowerActive)
+        {
+            MouseFollower.instance.Toggle(false);
+            isMouseFollowerActive = false;
+        }
+        canvasGroup.alpha = 1f;
+        canvasGroup.blocksRaycasts = true;
+
         gameObject.SetActive(false);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        draggingIcon = Instantiate(draggingIconPrefab, transform.position, Quaternion.identity, canvas.transform);
+        isMouseFollowerActive = true;
+        MouseFollower.instance.Toggle(true);
+        MouseFollower.instance.SetData(this.gameObject.GetComponent<Image>().sprite);
 
-        draggingIcon.GetComponent<Image>().sprite = this.gameObject.GetComponent<Image>().sprite;
-        draggingIcon.transform.SetAsLastSibling();
+        MouseFollower.instance.transform.position = rectTransform.position;
+
+
+        //draggingIcon = Instantiate(draggingIconPrefab, transform.position, Quaternion.identity, canvas.transform);
+
+        //draggingIcon.GetComponent<Image>().sprite = this.gameObject.GetComponent<Image>().sprite;
+        //draggingIcon.transform.SetAsLastSibling();
 
         canvasGroup.alpha = .6f;
         canvasGroup.blocksRaycasts = false;
+
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        draggingIcon.GetComponent<RectTransform>().anchoredPosition += eventData.delta / canvas.scaleFactor;
+        MouseFollower.instance.GetComponent<RectTransform>().anchoredPosition += eventData.delta / canvas.scaleFactor;
+        //draggingIcon.GetComponent<RectTransform>().anchoredPosition += eventData.delta / canvas.scaleFactor;
+
     }
     
     public void OnEndDrag(PointerEventData eventData)
     {
-        Destroy(draggingIcon);
+        if (isMouseFollowerActive)
+        {
+            MouseFollower.instance.Toggle(false);
+            isMouseFollowerActive = false;
+        }
+        //Destroy(draggingIcon);
 
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
-        rectTransform.anchoredPosition = initialPosition;
+        //rectTransform.anchoredPosition = initialPosition;
     }
 
     //Потом привязать к какому-то событию(прекращение всех волн)
@@ -85,5 +115,10 @@ public class TowerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
     public TowerType GetTowerType()
     {
         return towerType;
+    }
+
+    public float GetPrice()
+    {
+        return _price;
     }
 }
