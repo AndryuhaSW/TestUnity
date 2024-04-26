@@ -18,8 +18,6 @@ public class TowerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
 
     private bool isMouseFollowerActive = false;
 
-
-
     //Идея хорошая, но вроде можно улучшить. Пока пусть будет так
     //[SerializeField] private GameObject draggingIconPrefab;
     //private GameObject draggingIcon; // Полупрозрачная копия
@@ -120,5 +118,10 @@ public class TowerCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
     public float GetPrice()
     {
         return _price;
+    }
+
+    public bool GetIsMouseFollowerActive()
+    {
+        return isMouseFollowerActive;
     }
 }
