@@ -1117,6 +1117,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveNumber_text: {fileID: 394010787}
+  _levelManager: {fileID: 0}
+  cardConveyor: {fileID: 0}
 --- !u!114 &195177982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1178,6 +1180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bacb3cf4134de6840bf4fdb69c783863, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manu: {fileID: 1726874727}
 --- !u!114 &195177985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1220,7 +1223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _wallet: {fileID: 195177988}
-  _text: {fileID: 1175526571}
+  _text: {fileID: 0}
 --- !u!114 &195177988
 MonoBehaviour:
   m_ObjectHideFlags: 0

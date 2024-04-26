@@ -79,7 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeToBuild: 0
-  salePrice: 0
+  salePrice: 6
   _damage: 6
   _attackSpeed: 1000
   _splashRange: 50
