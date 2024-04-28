@@ -9,6 +9,7 @@ public class FsmState_Loss : MonoBehaviour, FsmState
 
     public void Enter()
     {
+        Debug.Log(6);
         manu.SetActive(true);
     }
 
@@ -19,6 +20,7 @@ public class FsmState_Loss : MonoBehaviour, FsmState
 
     public static void SetState()
     {
+        Debug.Log(5);
         FsmManager.Fsm.SetState(GameState.Loss);
     }
 

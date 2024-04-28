@@ -1,0 +1,17 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# https://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:a4e60440b3f29a7ee75c9fea983b658e:ced1c8c5037f9208c253012a4c14224c:b80d1ee487111fb5981e9c90f895e4f3$
+#
+:format=40300
+:texture=Circle.png
+:size=512x512
+:pivotpoints=enabled
+:borders=disabled
+:alphahandling=ClearTransparentPixels
+
+Ресурс 8;199;207;196;304; 0.5;0.5; 0;0;0;0; 17;184;238;152;205;146;147;196;96;196;61;146;10;114;0;78;0;65;6;5;53;0;64;0;96;48;147;20;257;40;297;85;304;154;304; 15;1;15;16;13;14;15;13;1;12;9;11;12;13;15;1;9;10;11;8;9;12;8;12;2;8;6;7;2;4;5;2;3;4;2;5;6;8;2;6;1;2;12;0;1;16
+Ресурс 9;1;207;196;304; 0.5051020408163265;0.5; 0;0;0;0; 14;171;271;177;236;152;199;149;146;196;97;196;57;122;0;61;0;0;61;0;99;57;144;17;264;63;304;137;304; 12;2;12;13;11;2;10;8;9;10;7;8;10;2;3;10;6;7;10;3;4;5;3;5;6;3;6;10;11;12;2;0;1;2;0;2;13

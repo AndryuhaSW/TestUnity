@@ -19,7 +19,6 @@ public class EnemyFactory : MonoBehaviour
         {
             instance = this;
         }
-
         patrolEnemyPool = new PoolMono<PatrolEnemy>(patrolEnemyPrefab, 10, container);
         healingEnemyPool = new PoolMono<HealingEnemy>(healingEnemyPrefab, 10, container);
     }

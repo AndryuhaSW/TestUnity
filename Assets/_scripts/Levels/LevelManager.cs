@@ -65,7 +65,7 @@ public class LevelManager : MonoBehaviour
                     AllWavesOver?.Invoke();
                     return;
                 }
-
+                Debug.Log("AllEnemiesDead");
                 AllEnemiesDead?.Invoke();
             }
         }
@@ -81,6 +81,7 @@ public class LevelManager : MonoBehaviour
 
         if (_sheepCount <= 0)
         {
+            Debug.Log(999);
             AllSheepsStealStolen?.Invoke();
         }
     }

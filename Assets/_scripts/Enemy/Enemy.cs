@@ -3,12 +3,13 @@ using UnityEngine;
 using UnityTask = System.Threading.Tasks.Task;
 using System.Threading;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 
 public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] private float _moneyAfterDeath;
-
+    [SerializeField] private Animator animator;
     protected Sheep sheep = null;
     protected Health health;
     protected List<Transform> forwardWayPoints;
@@ -42,6 +43,12 @@ public abstract class Enemy : MonoBehaviour
             await GoToPoint(backWayPoints[i].position);
 
         LevelManager.instance.StealSheep();
+        /*LevelManager.instance.KillEnemy();*/
+        sheep?.Return();
+        sheep = null;
+        health.PlusHealth(health.maxHealth);
+        SpriteRenderer image = transform.GetChild(1).GetComponent<SpriteRenderer>();
+        image.color = Color.white;
         gameObject.SetActive(false);
     }
 
@@ -49,9 +56,17 @@ public abstract class Enemy : MonoBehaviour
     {
         while (Vector2.Distance(gameObject.transform.position, direction) > 0.01f)
         {
+            Vector2 animationDirection = (direction - (Vector2)transform.position).normalized;
+            animator.SetFloat("Vertical", animationDirection.x);
+            animator.SetFloat("Horisontal", animationDirection.y);
             transform.position = Vector2.MoveTowards(transform.position, direction, speed * Time.fixedDeltaTime);
             await UnityTask.Delay((int)(Time.fixedDeltaTime * 1000), token.Token);
         }
+    }
+
+    protected void StopMooving()
+    {
+        token.Cancel();
     }
 
     protected virtual void OnKilled()
@@ -61,19 +76,21 @@ public abstract class Enemy : MonoBehaviour
         LevelManager.instance.KillEnemy();
         sheep?.OnDrop(transform.position);
         sheep = null;
-        health.PlusHealth(health.maxHealth);
-        Image image = transform.GetChild(1).GetComponent<Image>();
+        SpriteRenderer image = transform.GetChild(1).GetComponent<SpriteRenderer>();
         image.color = Color.white;
+        health.PlusHealth(health.maxHealth);
         gameObject.SetActive(false);
     }
 
     private void OnEnable()
     {
         health.Killed += OnKilled;
+        if (LevelManager.instance != null) LevelManager.instance.AllSheepsStealStolen += StopMooving;
     }
     private void OnDisable()
     {
         health.Killed -= OnKilled;
+        if (LevelManager.instance != null) LevelManager.instance.AllSheepsStealStolen -= StopMooving;
     }
 
 
@@ -95,8 +112,8 @@ public abstract class Enemy : MonoBehaviour
         {
             sheep = collision.GetComponent<Sheep>();
             sheep.OnTake();
-            Image image = transform.GetChild(1).GetComponent<Image>();
-            image.color = Color.green;
+            SpriteRenderer image = transform.GetChild(1).GetComponent<SpriteRenderer>();
+            image.color = Color.red;
         }
     }
 
