@@ -1,0 +1,23 @@
+version: 2
+tpsheetFileNames:
+- Assets/Animations/towers/enemy1/down/en1_down.tpsheet
+- Assets/Animations/towers/enemy1/top/en1_top.tpsheet
+- Assets/Animations/towers/single/Circle.tpsheet
+- Assets/Animations/towers/splash/splash.tpsheet
+- Assets/codeandweb.com/Example/SpriteSheet/sprites.tpsheet
+- Assets/sprites/en1/en1_rug.tpsheet
+textureFileNames:
+- Assets/Animations/towers/enemy1/down/en1_down.png
+- Assets/Animations/towers/enemy1/top/en1_top.png
+- Assets/Animations/towers/single/Circle.png
+- Assets/Animations/towers/splash/splash.png
+- Assets/codeandweb.com/Example/SpriteSheet/sprites.png
+- Assets/sprites/en1/en1_rug.png
+normalmapFileNames:
+- 
+- 
+- 
+- 
+- Assets/codeandweb.com/Example/SpriteSheet/sprites_n.png
+- 
+enableDebugOutput: 0

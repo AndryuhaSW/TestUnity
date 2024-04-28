@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Sheep : MonoBehaviour
 {
+    private Vector2 spawnPosition;
 
     public void OnTake()
     {
@@ -14,5 +15,16 @@ public class Sheep : MonoBehaviour
     {
         gameObject.SetActive(true);
         gameObject.transform.position = position;
+    }
+
+    public void Return()
+    {
+        gameObject.transform.position = spawnPosition;
+        gameObject.SetActive(true);
+    }
+
+    private void Start()
+    {
+        spawnPosition = transform.position;
     }
 }

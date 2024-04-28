@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityTask = System.Threading.Tasks.Task;
 
@@ -14,4 +15,5 @@ public class PatrolEnemy : Enemy
 
         health.Initialize(healthPoints);
     }
+
 }
