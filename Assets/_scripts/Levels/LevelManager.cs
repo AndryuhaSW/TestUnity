@@ -1,23 +1,29 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    public  event Action AllEnemiesDead;
-    public  event Action AllSheepsStealStolen;
-    public  event Action AllWavesOver;
+    public  event Action EndWave;
+    public  event Action LostGame;
+    public  event Action WinGame;
+
+    [SerializeField] private List<Sheep> sheeps;
+    [SerializeField] private LevelBackground levelBackground;
+    [SerializeField] private List<WayPoints> wayPoints;
 
     [SerializeField] private List<Data_Level> _levels;
 
     public static LevelManager instance { get; private set; }
-    private  int _enemyCount;
-    private  int _sheepCount = 3;
-    private  int _currentWaveNumber;
-    private  int _maxWaveNumber;
-    private Mutex _mutex = new Mutex();
-    public int CurrentLevel { get; set; } = 0;
+
+    private int enemyCount;
+    private  int sheepCount;
+    private  int currentWaveNumber;
+    private  int maxWaveNumber;
+    private Mutex mutex = new Mutex();
+    private int currentLevel;
 
     private void Awake()
     {
@@ -27,66 +33,88 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public void RestartLevel()
+    {
+        LoadLevel(currentLevel);
+    }
+
     public void LoadLevel(int level)
     {
+        FsmState_PrepareStage.SetState();
+        levelBackground.Change(level);
+        currentLevel = level;
+        currentWaveNumber = 0;
+        sheepCount = 3;
+        foreach (Sheep s in sheeps) s.Return(level);
+    }
+
+    public void StartLevel()
+    {
+        Data_Level currentLevelData = _levels[currentLevel-1];
+
+        maxWaveNumber = currentLevelData.waves.Count-1;
         
-        //-1 потому что индексы волн начинаются с 0
-        _maxWaveNumber = _levels[level].waves.Count - 1;
-        
-        for (int spawnerIndex = 0; spawnerIndex < _levels[level].spawners.Count; spawnerIndex++)
+        for (int spawnerIndex = 0; spawnerIndex < currentLevelData.spawners.Count; spawnerIndex++)
         {
-            List<Data_Enemy> enemies = _levels[level].waves[_currentWaveNumber].enemies;
+            List<Data_Enemy> enemies = currentLevelData.waves[currentWaveNumber].enemies;
             List<Data_Enemy> enemiesForThisSpawner = new List<Data_Enemy>();
             foreach (Data_Enemy enemy in enemies)
                 if (enemy.spawnerIndex == spawnerIndex)
                 {
                     enemiesForThisSpawner.Add(enemy);
-                    _enemyCount += enemy.countInLine;
+                    enemyCount += enemy.countInLine;
                 }
-
-            float speed = _levels[level].waves[_currentWaveNumber].speed;
-            _levels[level].spawners[spawnerIndex].SpawnWave(enemiesForThisSpawner, speed);
+            float speed = currentLevelData.waves[currentWaveNumber].speed;
+            currentLevelData.spawners[spawnerIndex].SpawnWave(enemiesForThisSpawner, speed, 
+                (currentLevel-1), wayPoints[currentLevelData.spawnerStartIndex + spawnerIndex]);
         }
     }
 
-    public void KillEnemy()
+    public void EnemyCountDecrement()
     {
         try
         {
-            _mutex.WaitOne();
+            mutex.WaitOne();
 
-            _enemyCount--;
-            if (_enemyCount <= 0)
-            {
-                _currentWaveNumber++;
-                if (_currentWaveNumber > _maxWaveNumber)
+            enemyCount--;
+            if (enemyCount <= 0)
+            {  
+                currentWaveNumber++;
+                if (currentWaveNumber > maxWaveNumber)
                 {
-                    _currentWaveNumber = 0;
-                    AllWavesOver?.Invoke();
+                    WinGame?.Invoke();
                     return;
                 }
-                Debug.Log("AllEnemiesDead");
-                AllEnemiesDead?.Invoke();
+                EndWave?.Invoke();
             }
         }
         finally
         {
-            _mutex.ReleaseMutex();
+            mutex.ReleaseMutex();
         }
     }
 
     public void StealSheep()
     {
-        _sheepCount--;
-
-        if (_sheepCount <= 0)
+        try
         {
-            Debug.Log(999);
-            AllSheepsStealStolen?.Invoke();
+            mutex.WaitOne();
+
+            sheepCount--;
+
+            if (sheepCount <= 0)
+            {
+                Debug.Log(999);
+                LostGame?.Invoke();
+            }
+        }
+        finally
+        {
+            mutex.ReleaseMutex();
         }
     }
 
 
-    public int GetMaxWaveNumber() => _maxWaveNumber;
-    public int GetCurrentWaveNumber() => _currentWaveNumber;
+    public int GetMaxWaveNumber() => maxWaveNumber;
+    public int GetCurrentWaveNumber() => currentWaveNumber;
 }

@@ -3,18 +3,15 @@ using UnityEngine.UI;
 
 public class FsmState_AttackStage : MonoBehaviour, FsmState
 {
-    [SerializeField]
-    private Text waveNumber_text;
+    [SerializeField] private Text waveNumber_text;
 
     [SerializeField] private LevelManager _levelManager;
-    [SerializeField] private CardConveyor cardConveyor;
     
 
 
     public void Enter()
     {
-        _levelManager.LoadLevel(_levelManager.CurrentLevel);
-        cardConveyor.Initialize();
+        LevelManager.instance.StartLevel();
         waveNumber_text.gameObject.SetActive(true);
         waveNumber_text.text = $"{_levelManager.GetCurrentWaveNumber()+1}/{_levelManager.GetMaxWaveNumber()+1}";
     }
@@ -28,5 +25,4 @@ public class FsmState_AttackStage : MonoBehaviour, FsmState
     {
         FsmManager.Fsm.SetState(GameState.AttakStage);
     }
-
 }
