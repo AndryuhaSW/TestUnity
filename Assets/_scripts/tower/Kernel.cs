@@ -21,7 +21,7 @@ public class Kernel : MonoBehaviour
 
         for (int i = 0; i < enemies.Count; i++)
         {
-            enemies[i].MinusHealth(damage);
+            enemies[i].GetComponent<Health>().MinusHealth(damage);
         }
 
         gameObject.SetActive(false);

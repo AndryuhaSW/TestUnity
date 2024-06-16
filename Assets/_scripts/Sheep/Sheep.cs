@@ -1,10 +1,15 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Sheep : MonoBehaviour
 {
-    private Vector2 spawnPosition;
+    [SerializeField] private List<Transform> spawnPoints;
+    private Vector2 startPosition;
+
+    private void Awake()
+    {
+        startPosition = transform.position;
+    }
 
     public void OnTake()
     {
@@ -17,14 +22,19 @@ public class Sheep : MonoBehaviour
         gameObject.transform.position = position;
     }
 
-    public void Return()
+    public void Return(int level)
     {
-        gameObject.transform.position = spawnPosition;
-        gameObject.SetActive(true);
+        transform.position = startPosition;
+        OnDrop(spawnPoints[level - 1].transform.position);
     }
 
-    private void Start()
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        spawnPosition = transform.position;
+        if (collision.tag == "Enemy")
+        {
+            Sheepable enemy = collision.GetComponent<Sheepable>();
+            enemy.TakeSheep(this);
+        }
     }
 }

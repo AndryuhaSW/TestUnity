@@ -26,11 +26,11 @@ public class FsmState_Loss : MonoBehaviour, FsmState
 
     private void OnEnable()
     {
-        LevelManager.instance.AllSheepsStealStolen += SetState;
+        LevelManager.instance.LostGame += SetState;
     }
 
     private void OnDisable()
     {
-        LevelManager.instance.AllSheepsStealStolen -= SetState;
+        LevelManager.instance.LostGame -= SetState;
     }
 }

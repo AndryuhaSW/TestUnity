@@ -37,18 +37,21 @@ public class FsmState_PrepareStage : MonoBehaviour, FsmState
     }
 
 
+    
+
+    public static void SetState()
+    {
+        FsmManager.Fsm.SetState(GameState.PrepareStage);
+    }
+
+
     private void OnEnable()
     {
-        LevelManager.instance.AllEnemiesDead += SetState;
+        LevelManager.instance.EndWave += SetState;
     }
 
     private void OnDisable()
     {
-        LevelManager.instance.AllEnemiesDead -= SetState;
-    }
-
-    public static void SetState()
-    {   
-        FsmManager.Fsm.SetState(GameState.PrepareStage);
+        LevelManager.instance.EndWave -= SetState;
     }
 }

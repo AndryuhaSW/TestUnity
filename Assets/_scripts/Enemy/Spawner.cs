@@ -5,20 +5,12 @@ using UnityTask = System.Threading.Tasks.Task;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private List<Transform> _forwardWayPoints;
-    [SerializeField] private List<Transform> _backWayPoints;
-
-    private EnemyFactory _enemyFactory;
+    private EnemyFactory enemyFactory;
 
     private CancellationTokenSource token;
 
-    //Ќе awake потому что instrance не успевает установитьс€ в EnemyFactory.Awake
-    private void Start()
-    {
-        _enemyFactory = EnemyFactory.instance;
-    }
 
-    public async UnityTask SpawnWave(List<Data_Enemy> waveList, float speed)
+    public async UnityTask SpawnWave(List<Data_Enemy> waveList, float speed, int level, WayPoints wayPoints)
     {
         token = new CancellationTokenSource();
 
@@ -30,10 +22,10 @@ public class Spawner : MonoBehaviour
 
             for (int i = 0; i < countInLine; i++)
             {
-                Enemy enemy = _enemyFactory.SpawnEnemy(enemyType);
+                Enemy enemy = enemyFactory.SpawnEnemy(enemyType);
 
-                enemy.transform.position = transform.position;
-                enemy.Initialize(_forwardWayPoints, _backWayPoints, speed);
+                enemy.transform.position = wayPoints.forwardWayPoints[0].position;
+                enemy.Initialize(wayPoints.forwardWayPoints, wayPoints.backWayPoints, speed);
 
                 await UnityTask.Delay((int)(delayNextEnemy * 1000), token.Token);
             }
@@ -46,13 +38,14 @@ public class Spawner : MonoBehaviour
         token.Cancel();
     }
 
-    private void OnEnable()
+    private void Start()
     {
-        LevelManager.instance.AllEnemiesDead += StopSpawner;
+        enemyFactory = EnemyFactory.instance;
+        LevelManager.instance.EndWave += StopSpawner;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
-        LevelManager.instance.AllEnemiesDead -= StopSpawner;
+        LevelManager.instance.EndWave -= StopSpawner;
     }
 }

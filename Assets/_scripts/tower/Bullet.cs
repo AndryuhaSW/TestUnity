@@ -16,7 +16,7 @@ public class Bullet : MonoBehaviour
             await UnityTask.Delay((int)(Time.fixedDeltaTime * 1000));
         }
 
-        target.MinusHealth(damage);
+        target.GetComponent<Health>().MinusHealth(damage);
         Destroy(gameObject);
     }
 

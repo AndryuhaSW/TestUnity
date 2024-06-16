@@ -26,7 +26,7 @@ public class SplashTower : Tower
                     if (col.CompareTag("Enemy"))
                     {
                         Enemy enemy = col.GetComponent<Enemy>();
-                        enemy.MinusHealth(_damage);
+                        enemy.GetComponent<Health>().MinusHealth(_damage);
                     }
                 }
 

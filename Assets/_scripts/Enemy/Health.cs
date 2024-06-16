@@ -18,7 +18,6 @@ public class Health : MonoBehaviour
 
     public void PlusHealth(float health)
     {
-        Debug.Log(333);
         if (currentHealth + health >= maxHealth)
         {
             currentHealth = maxHealth;

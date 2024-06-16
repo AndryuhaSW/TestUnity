@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class Data_Level
 {
     public List<Spawner> spawners;
+    public int spawnerStartIndex;
     public List<Data_Wave> waves;
 
     
