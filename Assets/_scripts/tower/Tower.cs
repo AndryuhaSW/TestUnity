@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 using UnityTask = System.Threading.Tasks.Task;
 
 public abstract class Tower : MonoBehaviour
@@ -11,6 +12,15 @@ public abstract class Tower : MonoBehaviour
     
     protected List<Enemy> enemies = new List<Enemy>();
     protected CancellationTokenSource token;
+
+    private Wallet wallet;
+
+
+    [Inject]
+    public void Inject(Wallet wallet)
+    {
+        this.wallet = wallet;
+    }
 
     public virtual async UnityTask Initialize()
     {
@@ -51,9 +61,7 @@ public abstract class Tower : MonoBehaviour
     public void SaleTower()
     {
         token.Cancel();
-        Wallet.Instance.ChangeMoney(salePrice);
+        wallet.ChangeMoney(salePrice);
         gameObject.SetActive(false);
     }
-
-    
 }

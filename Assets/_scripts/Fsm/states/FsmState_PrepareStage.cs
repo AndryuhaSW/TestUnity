@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class FsmState_PrepareStage : MonoBehaviour, FsmState
 {
@@ -10,6 +11,19 @@ public class FsmState_PrepareStage : MonoBehaviour, FsmState
     private Text _timer;
     [SerializeField]
     private int _timeDuration;
+
+    private WaveCounter waveCounter;
+    private FsmManager fsmManager;
+    private FsmState_AttackStage fsmState_AttackStage;
+
+    [Inject]
+    public void Inject(WaveCounter waveCounter,
+        FsmManager fsmManager, FsmState_AttackStage fsmState_AttackStage)
+    {
+        this.waveCounter = waveCounter;
+        this.fsmManager = fsmManager;
+        this.fsmState_AttackStage = fsmState_AttackStage;
+    }
 
     public void Enter()
     {
@@ -33,25 +47,25 @@ public class FsmState_PrepareStage : MonoBehaviour, FsmState
             yield return new WaitForSeconds(1);
         }
 
-        FsmState_AttackStage.SetState();
+        fsmState_AttackStage.SetState();
     }
 
 
     
 
-    public static void SetState()
+    public void SetState()
     {
-        FsmManager.Fsm.SetState(GameState.PrepareStage);
+        fsmManager.fsm.SetState(GameState.PrepareStage);
     }
 
 
     private void OnEnable()
     {
-        LevelManager.instance.EndWave += SetState;
+        waveCounter.EndWave += SetState;
     }
 
     private void OnDisable()
     {
-        LevelManager.instance.EndWave -= SetState;
+        waveCounter.EndWave -= SetState;
     }
 }

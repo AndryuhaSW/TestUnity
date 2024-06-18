@@ -1,8 +1,19 @@
 using UnityEngine;
+using Zenject;
 
 public class FsmState_Win : MonoBehaviour, FsmState
 {
     [SerializeField] private GameObject _winMenu;
+
+    private WaveCounter waveCounter;
+    private FsmManager fsmManager;
+
+    [Inject]
+    public void Inject(WaveCounter waveCounter, FsmManager fsmManager)
+    {
+        this.waveCounter = waveCounter;
+        this.fsmManager = fsmManager;
+    }
 
 
     public void Enter()
@@ -15,18 +26,18 @@ public class FsmState_Win : MonoBehaviour, FsmState
         _winMenu.SetActive(false);
     }
 
-    public static void SetState()
+    public void SetState()
     {
-        FsmManager.Fsm.SetState(GameState.Win);
+        fsmManager.fsm.SetState(GameState.Win);
     }
 
     private void OnEnable()
     {
-        LevelManager.instance.WinGame += SetState;
+        waveCounter.AllWavesOver += SetState;
     }
 
     private void OnDisable()
     {
-        LevelManager.instance.WinGame -= SetState;
+        waveCounter.AllWavesOver -= SetState;
     }
 }

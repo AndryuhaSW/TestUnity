@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 public class EnemyFactory : MonoBehaviour
 {
@@ -11,17 +12,22 @@ public class EnemyFactory : MonoBehaviour
     private PoolMono<PatrolEnemy> patrolEnemyPool;
     private PoolMono<HealingEnemy> healingEnemyPool;
 
-    public static EnemyFactory instance {get; private set;}
+    private DiContainer diContainer;
+
+
+    [Inject]
+    private void Inject(DiContainer diContainer)
+    {
+        this.diContainer = diContainer;
+    }
+
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        patrolEnemyPool = new PoolMono<PatrolEnemy>(patrolEnemyPrefab, 10, container);
-        healingEnemyPool = new PoolMono<HealingEnemy>(healingEnemyPrefab, 10, container);
+        patrolEnemyPool = new PoolMono<PatrolEnemy>(CreatePatrolEnemy, 10);
+        healingEnemyPool = new PoolMono<HealingEnemy>(CreateHealingEnemy, 10);
     }
+
 
     public Enemy SpawnEnemy(EnemyType enemyType)
     {
@@ -34,5 +40,19 @@ public class EnemyFactory : MonoBehaviour
         }
 
         throw new NullReferenceException("type of enemy is null");
+    }
+
+    private PatrolEnemy CreatePatrolEnemy(bool IsActiveByDefault)
+    {
+        GameObject obj = diContainer.InstantiatePrefab(patrolEnemyPrefab, container);
+        obj.SetActive(IsActiveByDefault);
+        return obj.GetComponent<PatrolEnemy>();
+    }
+
+    private HealingEnemy CreateHealingEnemy(bool IsActiveByDefault)
+    {
+        GameObject obj = diContainer.InstantiatePrefab(healingEnemyPrefab, container);
+        obj.SetActive(IsActiveByDefault);
+        return obj.GetComponent<HealingEnemy>();
     }
 }

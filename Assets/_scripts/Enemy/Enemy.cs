@@ -1,72 +1,67 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityTask = System.Threading.Tasks.Task;
+using System.Threading.Tasks;
 using System.Threading;
+using Zenject;
 
 
 public abstract class Enemy : MonoBehaviour, Sheepable
 {
-    [SerializeField] private float _moneyAfterDeath;
+    [SerializeField] private int moneyAfterDeath;
     [SerializeField] private Animator animator;
-    protected Sheep sheep = null;
-    protected Health health;
-    protected List<Transform> forwardWayPoints;
-    protected List<Transform> backWayPoints;
-    protected float speed;
+    [SerializeField] private int healthPoints;
 
-    protected CancellationTokenSource token;
+    private Health health;
+    private Sheep sheep = null;
+    private float speed;
+    private WayPoints wayPoints;
+
+    private CancellationTokenSource movingToken;
+
+    private SheepManager sheepManager;
+    private EnemyCounter enemyCounter;
+    private Wallet wallet;
+
+    [Inject]
+    public void Injec(SheepManager sheepManager, 
+        EnemyCounter enemyCounter, Wallet wallet)
+    {
+        this.sheepManager = sheepManager;
+        this.enemyCounter = enemyCounter;
+        this.wallet = wallet;
+    }
 
     private void Awake()
     {
         health = GetComponent<Health>();
+        health.Initialize(healthPoints);
     }
 
-    public virtual async UnityTask Initialize(List<Transform> forwardWayPoints, List<Transform> backWayPoints, float speed)
+    public virtual void Initialize(WayPoints wayPoints, float speed)
     {
-        token = new CancellationTokenSource();
-        this.forwardWayPoints = forwardWayPoints;
-        this.backWayPoints = backWayPoints;
+        movingToken = new CancellationTokenSource();
+
+        this.wayPoints = wayPoints;
         this.speed = speed;
 
         Move();
     }
 
-    private async UnityTask Move()
+    private async Task Move()
     {
-        for (int i = 0; i < forwardWayPoints.Count; i++)
-            await GoToPoint(forwardWayPoints[i].position);
+        for (int i = 0; i < wayPoints.forwardWayPoints.Count; i++)
+            await GoToPoint(wayPoints.forwardWayPoints[i].position);
 
 
-        for (int i = 0; i < backWayPoints.Count; i++)
-            await GoToPoint(backWayPoints[i].position);
-
+        for (int i = 0; i < wayPoints.backWayPoints.Count; i++)
+            await GoToPoint(wayPoints.backWayPoints[i].position);
 
         ClearSheep();
         ResetEnemy();
-        LevelManager.instance.EnemyCountDecrement();
+        enemyCounter.Decrement();
     }
 
-    private void ClearSheep()
-    {
-        if (sheep != null)
-        {
-            LevelManager.instance.StealSheep();
-            sheep.gameObject.SetActive(false);
-            sheep = null;
-        }
-    }
-
-
-    private void ResetEnemy()
-    {
-        StopMooving();
-        PaintEnemy(Color.white);
-        health.PlusHealth(health.maxHealth);
-        gameObject.SetActive(false);
-    }
-
-
-    private async UnityTask GoToPoint(Vector2 direction)
+    private async Task GoToPoint(Vector2 direction)
     {
         while (Vector2.Distance(gameObject.transform.position, direction) > 0.01f)
         {
@@ -74,24 +69,33 @@ public abstract class Enemy : MonoBehaviour, Sheepable
             animator.SetFloat("Vertical", animationDirection.x);
             animator.SetFloat("Horisontal", animationDirection.y);
             transform.position = Vector2.MoveTowards(transform.position, direction, speed * Time.fixedDeltaTime);
-            await UnityTask.Delay((int)(Time.fixedDeltaTime * 1000), token.Token);
+            await Task.Delay((int)(Time.fixedDeltaTime * 1000), movingToken.Token);
         }
     }
 
-    protected void StopMooving()
+    private void ClearSheep()
     {
-        token.Cancel();
+        if (sheep != null)
+        {
+            sheepManager.StealSheep();
+            sheep = null;
+        }
     }
 
-    protected virtual void OnKilled()
+    private void ResetEnemy()
     {
+        StopMooving();
         PaintEnemy(Color.white);
-        Wallet.Instance.ChangeMoney(_moneyAfterDeath);
-        ResetEnemy();
-        LevelManager.instance.EnemyCountDecrement();
+        health.Reset();
+        gameObject.SetActive(false);
     }
 
-
+    private void OnKilled()
+    {
+        wallet.ChangeMoney(moneyAfterDeath);
+        ResetEnemy();
+        enemyCounter.Decrement();
+    }
 
     private void PaintEnemy(Color color)
     {
@@ -102,14 +106,12 @@ public abstract class Enemy : MonoBehaviour, Sheepable
     private void OnEnable()
     {
         health.Killed += OnKilled;
-        if (LevelManager.instance != null)
-            LevelManager.instance.LostGame += ResetEnemy;
+        sheepManager.AllSheepStolen += ResetEnemy;
     }
     private void OnDisable()
     {
         health.Killed -= OnKilled;
-        if (LevelManager.instance != null)
-            LevelManager.instance.LostGame -= ResetEnemy;
+        sheepManager.AllSheepStolen -= ResetEnemy;
     }
 
     public void TakeSheep(Sheep sheep)
@@ -124,8 +126,12 @@ public abstract class Enemy : MonoBehaviour, Sheepable
 
     public void DropSheep()
     {
-        sheep?.OnDrop(transform.position);
+        sheep?.DropTo(transform.position);
         sheep = null;
     }
 
+    protected void StopMooving()
+    {
+        movingToken.Cancel();
+    }
 }

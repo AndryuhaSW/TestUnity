@@ -1,19 +1,30 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class FsmState_AttackStage : MonoBehaviour, FsmState
 {
     [SerializeField] private Text waveNumber_text;
 
-    [SerializeField] private LevelManager _levelManager;
-    
 
+    private LevelManager levelManager;
+    private WaveCounter waveCounter;
+    private FsmManager fsmManager;
+
+    [Inject]
+    public void Inject(LevelManager levelManager, 
+        WaveCounter waveCounter, FsmManager fsmManager)
+    {
+        this.levelManager = levelManager;
+        this.waveCounter = waveCounter;
+        this.fsmManager = fsmManager;
+    }
 
     public void Enter()
     {
-        LevelManager.instance.StartLevel();
+        levelManager.StartLevel();
         waveNumber_text.gameObject.SetActive(true);
-        waveNumber_text.text = $"{_levelManager.GetCurrentWaveNumber()+1}/{_levelManager.GetMaxWaveNumber()+1}";
+        waveNumber_text.text = $"{waveCounter.GetCurrentWave()+1}/{waveCounter.GetMaxWaveNumber()+1}";
     }
 
     public void Exit()
@@ -21,8 +32,8 @@ public class FsmState_AttackStage : MonoBehaviour, FsmState
         waveNumber_text.gameObject.SetActive(false);
     }
 
-    public static void SetState()
+    public void SetState()
     {
-        FsmManager.Fsm.SetState(GameState.AttakStage);
+        fsmManager.fsm.SetState(GameState.AttakStage);
     }
 }

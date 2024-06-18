@@ -1,30 +1,41 @@
 using UnityEngine;
+using Zenject;
 
 public class FsmManager : MonoBehaviour
 {
-    [SerializeField]
     private FsmState_StartMenu state_startMenu;
-    [SerializeField]
     private FsmState_PrepareStage state_prepareStage;
-    [SerializeField]
     private FsmState_AttackStage state_attackStage;
-    [SerializeField]
     private FsmState_Win state_win;
-    [SerializeField]
     private FsmState_Loss state_loss;
 
-    public static Fsm Fsm { get; private set; }
+    [Inject]
+    public void Inject(
+        FsmState_StartMenu state_startMenu,
+        FsmState_PrepareStage state_prepareStage,
+        FsmState_AttackStage state_attackStage,
+        FsmState_Win state_win,
+        FsmState_Loss state_loss)
+    {
+        this.state_startMenu = state_startMenu;
+        this.state_prepareStage = state_prepareStage;
+        this.state_attackStage = state_attackStage;
+        this.state_win = state_win;
+        this.state_loss = state_loss;
+    }
+
+    public Fsm fsm { get; private set; }
 
     private void Start()
     {
-        Fsm = new Fsm();
+        fsm = new Fsm();
 
-        Fsm.AddState(GameState.StartMenu, state_startMenu);
-        Fsm.AddState(GameState.PrepareStage, state_prepareStage);
-        Fsm.AddState(GameState.AttakStage, state_attackStage);
-        Fsm.AddState(GameState.Win, state_win);
-        Fsm.AddState(GameState.Loss, state_loss);
+        fsm.AddState(GameState.StartMenu, state_startMenu);
+        fsm.AddState(GameState.PrepareStage, state_prepareStage);
+        fsm.AddState(GameState.AttakStage, state_attackStage);
+        fsm.AddState(GameState.Win, state_win);
+        fsm.AddState(GameState.Loss, state_loss);
 
-        Fsm.SetState(GameState.StartMenu);
+        fsm.SetState(GameState.StartMenu);
     }
 }

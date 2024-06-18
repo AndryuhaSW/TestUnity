@@ -1,28 +1,19 @@
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
-using UnityTask = System.Threading.Tasks.Task;
+using System.Threading.Tasks;
 
 public class HealingEnemy : Enemy
 {
-    [SerializeField] private float healthPoints;
     [SerializeField] private float healRadius;
     [SerializeField] private float healAmount;
 
-
-
-    public override async UnityTask Initialize(List<Transform> forwardWayPoints,
-        List<Transform> backWayPoints, float speed)
+    public override void Initialize(WayPoints wayPoints, float speed)
     {
-
-        await base.Initialize(forwardWayPoints, backWayPoints, speed);
-
-        health.Initialize(healthPoints);
+        base.Initialize(wayPoints, speed);
 
         HealEnemies();
     }
 
-    private async UnityTask HealEnemies()
+    private async Task HealEnemies()
     {
         while (true)
         {
@@ -38,7 +29,7 @@ public class HealingEnemy : Enemy
                 }
             }
             
-            await UnityTask.Delay(1000);
+            await Task.Delay(1000);
         }
     }
 

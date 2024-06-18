@@ -22,9 +22,9 @@ public class TowerCardFactory : MonoBehaviour
             instance = this;
         }
 
-        SinglePurposeTowerPool = new PoolMono<TowerCard>(SinglePurposeTowerPrefab, 10, container);
-        CircleRangeTowerPool = new PoolMono<TowerCard>(CircleRangeTowerPrefab, 10, container);
-        SplashTowerPool = new PoolMono<TowerCard>(SplashTowerPrefab, 10, container);
+        //SinglePurposeTowerPool = new PoolMono<TowerCard>(SinglePurposeTowerPrefab, 10, container);
+        //CircleRangeTowerPool = new PoolMono<TowerCard>(CircleRangeTowerPrefab, 10, container);
+        //SplashTowerPool = new PoolMono<TowerCard>(SplashTowerPrefab, 10, container);
     }
 
     public TowerCard SpawnTowerCard(TowerType towerType)
