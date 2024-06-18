@@ -1,15 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+using Zenject;
 
 public class FsmState_Loss : MonoBehaviour, FsmState
 {
     [SerializeField] private GameObject manu;
 
+    private SheepManager SheepManager;
+    private FsmManager fsmManager;
+
+    [Inject]
+    public void Inject(SheepManager SheepManager, FsmManager fsmManager)
+    {
+        this.SheepManager = SheepManager;
+        this.fsmManager = fsmManager;
+    }
+
     public void Enter()
     {
-        Debug.Log(6);
         manu.SetActive(true);
     }
 
@@ -18,19 +25,18 @@ public class FsmState_Loss : MonoBehaviour, FsmState
         manu.SetActive(false);
     }
 
-    public static void SetState()
+    public void SetState()
     {
-        Debug.Log(5);
-        FsmManager.Fsm.SetState(GameState.Loss);
+        fsmManager.fsm.SetState(GameState.Loss);
     }
 
     private void OnEnable()
     {
-        LevelManager.instance.LostGame += SetState;
+        SheepManager.AllSheepStolen += SetState;
     }
 
     private void OnDisable()
     {
-        LevelManager.instance.LostGame -= SetState;
+        SheepManager.AllSheepStolen -= SetState;
     }
 }

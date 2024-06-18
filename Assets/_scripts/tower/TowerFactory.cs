@@ -21,10 +21,9 @@ public class TowerFactory : MonoBehaviour
         {
             instance = this;
         }
-
-        singlePurposeTowerPool = new PoolMono<SinglePurposeTower>(singlePurposeTower, 10, container);
-        circleRangeTowerPool = new PoolMono<CircleRangeTower>(circleRangeTower, 10, container);
-        splashTowerPool = new PoolMono<SplashTower>(splashTower, 10, container);
+        //singlePurposeTowerPool = new PoolMono<SinglePurposeTower>(singlePurposeTower, 10, container);
+        //circleRangeTowerPool = new PoolMono<CircleRangeTower>(circleRangeTower, 10, container);
+        //splashTowerPool = new PoolMono<SplashTower>(splashTower, 10, container);
     }
 
     public Tower CreateTower(TowerType towerType)

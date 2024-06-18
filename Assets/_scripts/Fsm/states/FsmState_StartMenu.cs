@@ -1,10 +1,18 @@
 
 using UnityEngine;
+using Zenject;
 
 public class FsmState_StartMenu : MonoBehaviour, FsmState
 {
-    [SerializeField]
-    private GameObject menu;
+    [SerializeField] private GameObject menu;
+
+    private FsmManager fsmManager;
+
+    [Inject]
+    public void Inject(FsmManager fsmManager)
+    {
+        this.fsmManager = fsmManager;
+    }
 
     public void Enter()
     {
@@ -16,8 +24,8 @@ public class FsmState_StartMenu : MonoBehaviour, FsmState
         menu.SetActive(false);
     }
 
-    public static void SetState()
+    public void SetState()
     {
-        FsmManager.Fsm.SetState(GameState.StartMenu);
+        fsmManager.fsm.SetState(GameState.StartMenu);
     }
 }

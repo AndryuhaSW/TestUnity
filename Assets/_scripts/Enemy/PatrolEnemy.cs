@@ -1,19 +1,9 @@
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using UnityEngine;
-using UnityTask = System.Threading.Tasks.Task;
-
 
 public class PatrolEnemy : Enemy
 {
-    [SerializeField] private float healthPoints;
-
-    public override async UnityTask Initialize(List<Transform> forwardWayPoints,
-        List<Transform> backWayPoints, float speed)
+    public override void Initialize(WayPoints wayPoints, float speed)
     {
-        await base.Initialize(forwardWayPoints, backWayPoints, speed);
-
-        health.Initialize(healthPoints);
+        base.Initialize(wayPoints, speed);
     }
 
 }

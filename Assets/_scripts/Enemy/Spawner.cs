@@ -1,33 +1,45 @@
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-using UnityTask = System.Threading.Tasks.Task;
+using Zenject;
+using System.Threading.Tasks;
 
 public class Spawner : MonoBehaviour
 {
+    [SerializeField] private WayPoints wayPoints;
+
+    private CancellationTokenSource spawnWaveToken;
+
+    private WaveCounter waveCounter;
     private EnemyFactory enemyFactory;
 
-    private CancellationTokenSource token;
 
-
-    public async UnityTask SpawnWave(List<Data_Enemy> waveList, float speed, int level, WayPoints wayPoints)
+    [Inject]
+    public void Inject(WaveCounter waveCounter, EnemyFactory enemyFactory)
     {
-        token = new CancellationTokenSource();
+        this.waveCounter = waveCounter;
+        this.enemyFactory = enemyFactory;
+    }
+
+    public async Task SpawnWave(List<Data_Enemy> waveList, float speed)
+    {
+        spawnWaveToken = new CancellationTokenSource();
 
         foreach (Data_Enemy enemyData in waveList)
         {
             EnemyType enemyType = enemyData.enemyType;
             int countInLine = enemyData.countInLine;
-            float delayNextEnemy = enemyData.delayNextEnemy;
+            int delayNextEnemy = enemyData.delayNextEnemy_MS;
 
             for (int i = 0; i < countInLine; i++)
             {
+
                 Enemy enemy = enemyFactory.SpawnEnemy(enemyType);
 
                 enemy.transform.position = wayPoints.forwardWayPoints[0].position;
-                enemy.Initialize(wayPoints.forwardWayPoints, wayPoints.backWayPoints, speed);
+                enemy.Initialize(wayPoints, speed);
 
-                await UnityTask.Delay((int)(delayNextEnemy * 1000), token.Token);
+                await Task.Delay((delayNextEnemy * 100), spawnWaveToken.Token);
             }
         }
     }
@@ -35,17 +47,16 @@ public class Spawner : MonoBehaviour
 
     public void StopSpawner()
     {
-        token.Cancel();
+        spawnWaveToken.Cancel();
     }
 
     private void Start()
     {
-        enemyFactory = EnemyFactory.instance;
-        LevelManager.instance.EndWave += StopSpawner;
+        waveCounter.EndWave += StopSpawner;
     }
 
     private void OnDestroy()
     {
-        LevelManager.instance.EndWave -= StopSpawner;
+        waveCounter.EndWave -= StopSpawner;
     }
 }

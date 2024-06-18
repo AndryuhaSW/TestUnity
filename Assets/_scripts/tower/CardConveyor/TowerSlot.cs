@@ -19,7 +19,7 @@ public class TowerSlot : MonoBehaviour, IDropHandler, IPointerClickHandler
         {
             TowerCard towerCard = eventData.pointerDrag.GetComponent<TowerCard>();
             
-            if (Wallet.Instance.GetMoney() >= towerCard.GetPrice() && towerCard.GetIsMouseFollowerActive())
+            /*if (Wallet.Instance.GetMoney() >= towerCard.GetPrice() && towerCard.GetIsMouseFollowerActive())
             {
                 isEmployed = true;
                 Wallet.Instance.ChangeMoney(-towerCard.GetPrice());
@@ -30,7 +30,7 @@ public class TowerSlot : MonoBehaviour, IDropHandler, IPointerClickHandler
                 towerInSlot = tower;
                 tower.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
                 tower.Initialize();
-            }
+            }*/
             towerCard.OnEndDrag(eventData);
         }
             
